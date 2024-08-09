@@ -1,0 +1,674 @@
+[
+  {
+    "role": "system",
+    "content": "You are an intent classifier, which classifies user queries to intent enums. You have access to a short window of a conversation between an AI agent and a human user. You only are classifying the most recent user query. You must use the following intents for classification of the most recent user utterance: \n<intent>\n<enum>WEB_HOOK</enum>\nThe user is requesting to call webhook\n</intent>\n\n<intent>\n<enum>CONVERSATION</enum>\nThe user is engaging in conversation with no concrete request. The user is *not* asking a question that requires real-time information. MUST NOT BE used when a response requires an internet search. MUST NOT BE used for playing music, ordering food, calling a ride, or any other task that requires the assistant to perform an action. Should be used when the query is gramatically incorrect, semantically anomalous, categorically false, or logically inconsistent. \n</intent>\n\n<intent>\n<enum>KNOWLEDGE</enum>\nThe user asks a question in chemistry, physics, geography, history, art, astronomy, and other general knowledge topics that require access to encyclopedic information, a knowledge base, deductive or inductive reasoning. A valid response to the user does not require real-time or up-to-date information. Topics applicable to this intent includes:\nScience & Technology: physics, units and measure conversions, earth sciences, technological world, weather & meteorology, food science, chemistry, engineering, transportation, life sciences, physical geography, computational sciences, space & astronomy, materials, biology, health & medicine, environmental sciences, computer science, and more.\nSociety & Culture: people, words & linguistics, food & nutrition, political geography, economic data, sports, arts & media, money & finance, demographics & social statistics, arts & design, games & puzzles, history, dates & times, institutions & organizations, education, and more.\nEveryday Life: personal health, entertainment, dates & anniversaries, hobbies, personal finance, household science, today's world, surprises, travel, and more.\n\n</intent>\n\n<intent>\n<enum>INTERNET_SEARCH</enum>\nThe user poses a question that requires an internet search to find relevant, real-time information. The user is posing a follow-up question to a previous internet search. MUST NOT BE used for weather, stock, or finance questions. MUST NOT BE used for questions that require mathematical calculations, encyclopedic knowledge, deductive or inductive reasoning. \n</intent>\n\n<intent>\n<enum>MATH</enum>\nThe user is asking a question that requires mathematical calculations. This includes arithmetic, algebra, geometry, calculus, statistics, and other mathematical topics. This is also used if the user asks for arithmetic operations to be peformed on answers to knowledge-based questions.\n</intent>\n\n<intent>\n<enum>FINANCE</enum>\nThe user is requesting up-to-date stock prices and financial information. This is used for any queries that asks for prices of stocks, cryptocurrencies.\n</intent>\n\n<intent>\n<enum>WEATHER</enum>\nThe user is requesting real-time weather information. The user might ask for the weather forecast, or they might ask a question that requires knowledge of up-to-date weather information. For example, the user might ask if it will rain today. The user may or may not specify the city for which they request information. This intent is for real-time weather information only.\n</intent>\n\n<intent>\n<enum>CHANGE_USER_NAME</enum>\nThe user wants to change their username.\n</intent>\n\n<intent>\n<enum>CHANGE_ASSISTANT_NAME</enum>\nThe user wants to change the assistant's name.\n</intent>\n\n<intent>\n<enum>START_TRANSLATOR</enum>\nThe user requests the assistant to start a translation service between two different languages.\n</intent>\n\n<intent>\n<enum>START_MEETING_ASSISTANT</enum>\nThe user wants to start an audio recorder service that transcribes audio to take notes of a meeting, lecture, or conversation. The recorder will also summarize or take notes.\n</intent>\n\n<intent>\n<enum>VOICE_MEMO</enum>\nRecords and stores notes or memos. The memo is stored on rabbit hole.\nUsed when the user wants to save a note, make a note, or save information to rabbit hole.\n</intent>\n\n<intent>\n<enum>GET_CURRENT_TIME</enum>\nThe user is requesting the current local time in some location.\n</intent>\n\n<intent>\n<enum>PLAY_MUSIC</enum>\nThe user requests the assistant to play some music. The user might request a song, an artist, or a genre.\n</intent>\n\n<intent>\n<enum>CALL_UBER_RIDE</enum>\nThe user wants to call a ride to a location, or asks if the assistant can call a ride.\n</intent>\n\n<intent>\n<enum>ORDER_FOOD</enum>\nThe user wants to order food for delivery, or asks if the assistant can order food. The user might specify the dish, the restaurant, or the cuisine type. The user might specifically instruct the assistant to use DoorDash to order the food.\n</intent>\n\n<intent>\n<enum>GET_DOORDASH_STATUS</enum>\nThe user has already ordered food, and they want to know the status of the delivery. The user might ask about where the food is or where the driver is. The user might also ask how long they have to wait for the delivery. The user might ask about where their DoorDash is. This intent assumes the user has already placed an order, the user is only asking for an update about the status of that delivery.\n</intent>\n\n<intent>\n<enum>GENERATE_IMAGE</enum>\nThe user wants the assistant to generate an image, using a generative AI service. The user might ask you to create a photo, painting, or any other kind of image. The might explicitly ask you to use the Midjourney AI service.\n</intent>\n\n<intent>\n<enum>CONVERSATION_VISUAL</enum>\nThe user is asking a question related to an image that the user provided to the assistant. Only used when the query is referncing objects in the image, or if the answer to the user's query can be assisted by information in the image. FOLLOW CLOSELY to the examples when using this intent.\n</intent>\n\n<intent>\n<enum>EDIT_SPREADSHEET</enum>\nWhen the user passed an image of a spreadsheet, and wants to edit it.\n</intent>\n\n<intent>\n<enum>SEND_FEEDBACK</enum>\nThe user wants to provide feedback to the assistant.\n</intent>\n\n<intent>\n<enum>GET_UBER_STATUS_UPDATE</enum>\nThe user is requesting the status of their rideshare ride. The user might specifically ask about the status of their uber.\n</intent>\n\n<intent>\n<enum>GET_DOORDASH_STATUS</enum>\nThe user is requesting the status of their food delivery\n</intent>\n\n"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Translate from Spanish to French.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "START_TRANSLATOR"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: What's the price of Bitcoin?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "FINANCE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: What is the latest news about the shooting that happened in downtown Los Angeles yesterday?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "INTERNET_SEARCH"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Arrange an UberX to the train station.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "CALL_UBER_RIDE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Take a voice note, I dreamt that I saw the sun rising.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "VOICE_MEMO"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: What's the stock price of Amazon?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "FINANCE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Play Daft Punk.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "PLAY_MUSIC"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Can you find a recipe for a vegan chocolate cake?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "INTERNET_SEARCH"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Start recording.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "START_MEETING_ASSISTANT"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: What is the status of my food delivery?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "GET_DOORDASH_STATUS"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Book an Uber for tonight's party.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "CALL_UBER_RIDE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Change your name to 'Alexa'\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "CHANGE_ASSISTANT_NAME"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Has my uber driver arrived yet?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "GET_UBER_STATUS_UPDATE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: How much did NASDAQ drop today?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "FINANCE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Is it going to rain today?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "WEATHER"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: What are the 10 densest elements?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "KNOWLEDGE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Send request to webhook\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "WEB_HOOK"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: What's the weather?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "WEATHER"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: I want to give feedback.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "SEND_FEEDBACK"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Can you order Chinese food for dinner?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "ORDER_FOOD"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Change my username to 'Bob'\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "CHANGE_USER_NAME"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: true\nquery: Tell me what you see?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "CONVERSATION_VISUAL"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Can you help me get a ride?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "CALL_UBER_RIDE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Meeting mode, please.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "START_MEETING_ASSISTANT"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Arrange for a delivery from the Italian restaurant.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "ORDER_FOOD"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Where is my uber driver\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "GET_UBER_STATUS_UPDATE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Who is the winner of the latest F1 game?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "INTERNET_SEARCH"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Can you tell me the reviews of the movie \"Tenet\"?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "INTERNET_SEARCH"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Save this note, I need to buy waffles and ice cream.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "VOICE_MEMO"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Start the recorder.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "START_MEETING_ASSISTANT"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Who is the current Secretary of State in the US?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "INTERNET_SEARCH"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Update me on my door dash order\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "GET_DOORDASH_STATUS"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Record this meeting.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "START_MEETING_ASSISTANT"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: I want you to trigger a webhook\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "WEB_HOOK"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Take a voice memo. The desk is 12 inches wide.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "VOICE_MEMO"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: What is the meaning of iambic pentameter?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "KNOWLEDGE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Put on some classical music.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "PLAY_MUSIC"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: I am hungry, order something for me.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "ORDER_FOOD"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: What's the current time in Santa Monica?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "GET_CURRENT_TIME"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: When is my door dash going to arrive?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "GET_DOORDASH_STATUS"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Record this note: the grass is green.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "VOICE_MEMO"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Integrate x^2 * sin(x) dx\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "MATH"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: (UserQuery: What's the capital of France?\nAssistantResponse: The capital of France is Paris.)\ncontains_image_input: false\nquery: Save it to rabbit hole.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "VOICE_MEMO"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: What was the name of the thirteenth Roman emperor?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "KNOWLEDGE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: What's the process of making cheese?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "KNOWLEDGE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: how do you say apple in japanese?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "CONVERSATION"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Play anything.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "PLAY_MUSIC"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: What is the sum of distance between Seattle and New York and New York and LA?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "MATH"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Get me some Indian food from the local restaurant.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "ORDER_FOOD"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: What's your opinion on my project?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "CONVERSATION"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Request an Uber for a pickup at my location.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "CALL_UBER_RIDE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Will you please interpret this Chinese message into English for me?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "START_TRANSLATOR"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: true\nquery: What's this plant?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "CONVERSATION_VISUAL"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Help me get a hamburger.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "ORDER_FOOD"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: When will my pizza arrive?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "GET_DOORDASH_STATUS"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Start recording this meeting.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "START_MEETING_ASSISTANT"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: What is your name?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "CONVERSATION"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Order pizza from Domino's.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "ORDER_FOOD"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Get me an Uber ride from the Getty Center to the airport.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "CALL_UBER_RIDE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Calculate 2 + 2 * 4\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "MATH"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Start the meeting assistant mode.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "START_MEETING_ASSISTANT"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Can you look up the distance from Earth to Mars?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "KNOWLEDGE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Can you help me look up the price of Palantir?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "INTERNET_SEARCH"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Create an image of a beach at sunset.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "GENERATE_IMAGE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: true\nquery: Help me edit this spreadsheet.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "EDIT_SPREADSHEET"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Hey, can you help me translate this Portuguese into English?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "START_TRANSLATOR"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: What's an equinox?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "KNOWLEDGE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Get me sushi delivered from Sakura Sushi.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "ORDER_FOOD"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: What is 5 kilometers in miles?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "KNOWLEDGE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Can you help me order some food?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "ORDER_FOOD"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: I want to order some Thai food.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "ORDER_FOOD"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Order a sandwich from the deli.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "ORDER_FOOD"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: What is the status of my Uber ride?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "GET_UBER_STATUS_UPDATE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: I want to order a salad from the salad bar.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "ORDER_FOOD"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: What time is it now?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "GET_CURRENT_TIME"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Trigger webhook\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "WEB_HOOK"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Book an Uber to downtown.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "CALL_UBER_RIDE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Order burgers and fries from McDonald's.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "ORDER_FOOD"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Get me a ride to the airport with Uber.\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "CALL_UBER_RIDE"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: What was the score of the latest FIFA world cup?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "INTERNET_SEARCH"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: What's the weather in LA?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "WEATHER"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: What's the square root of 64?\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "MATH"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: ()\ncontains_image_input: false\nquery: Call my webhook\nOUTPUT\n"
+  },
+  {
+    "role": "assistant",
+    "content": "WEB_HOOK"
+  },
+  {
+    "role": "user",
+    "content": "INPUT\ncontext: (UserQuery: let me give that place a review\nAssistantResponse: Feel free to share your thoughts and review the restaurant you have in mind! If you need any assistance with writing the review, feel free to ask.\nUserQuery: I mean give me yelp so I can make a review\nAssistantResponse: Searching Yelp for review purposes. The search results do not provide a direct link to submit a Yelp review.\nUserQuery: let's go there in person then)\ncontains_image_input: false\nquery: let's go there in person then\nOUTPUT\n"
+  }
+]

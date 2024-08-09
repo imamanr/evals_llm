@@ -1,0 +1,53 @@
+import base64
+from PIL import Image
+import os, io, sys
+import json
+import csv
+from pathlib import Path
+import re
+from .base import dataset
+from .access_s3 import read_contents_s3, download_file_from_s3
+import pandas as pd
+if sys.version_info[0] < 3: 
+    from StringIO import StringIO # Python 2.x
+else:
+    from io import StringIO # Python 3.x
+import re
+from collections import defaultdict
+
+text = {"user": [], "assistant": []}
+
+class intention_may16_csv(dataset):
+    def __init__(self, data_dir) -> None:
+        self.data_dir = data_dir
+        self.system_prompt = "You are an intent classifier, which classifies user queries to intent enums. You have access to a short window of a conversation between an AI agent and a human user. You only are classifying the most recent user query. You must use the following intents for classification of the most recent user utterance: \n<intent>\n<enum>WEB_HOOK</enum>\nThe user is requesting to call webhook\n</intent>\n\n<intent>\n<enum>CONVERSATION</enum>\nThe user is engaging in conversation with no concrete request. The user is *not* asking a question that requires real-time information. MUST NOT BE used when a response requires an internet search. MUST NOT BE used for playing music, ordering food, calling a ride, or any other task that requires the assistant to perform an action. Should be used when the query is gramatically incorrect, semantically anomalous, categorically false, or logically inconsistent. \n</intent>\n\n<intent>\n<enum>KNOWLEDGE</enum>\nThe user asks a question in chemistry, physics, geography, history, art, astronomy, and other general knowledge topics that require access to encyclopedic information, a knowledge base, deductive or inductive reasoning. A valid response to the user does not require real-time or up-to-date information. Topics applicable to this intent includes:\nScience & Technology: physics, units and measure conversions, earth sciences, technological world, weather & meteorology, food science, chemistry, engineering, transportation, life sciences, physical geography, computational sciences, space & astronomy, materials, biology, health & medicine, environmental sciences, computer science, and more.\nSociety & Culture: people, words & linguistics, food & nutrition, political geography, economic data, sports, arts & media, money & finance, demographics & social statistics, arts & design, games & puzzles, history, dates & times, institutions & organizations, education, and more.\nEveryday Life: personal health, entertainment, dates & anniversaries, hobbies, personal finance, household science, today's world, surprises, travel, and more.\n\n</intent>\n\n<intent>\n<enum>INTERNET_SEARCH</enum>\nThe user poses a question that requires an internet search to find relevant, real-time information. The user is posing a follow-up question to a previous internet search. MUST NOT BE used for weather, stock, or finance questions. MUST NOT BE used for questions that require mathematical calculations, encyclopedic knowledge, deductive or inductive reasoning. \n</intent>\n\n<intent>\n<enum>MATH</enum>\nThe user is asking a question that requires mathematical calculations. This includes arithmetic, algebra, geometry, calculus, statistics, and other mathematical topics. This is also used if the user asks for arithmetic operations to be peformed on answers to knowledge-based questions.\n</intent>\n\n<intent>\n<enum>FINANCE</enum>\nThe user is requesting up-to-date stock prices and financial information. This is used for any queries that asks for prices of stocks, cryptocurrencies.\n</intent>\n\n<intent>\n<enum>WEATHER</enum>\nThe user is requesting real-time weather information. The user might ask for the weather forecast, or they might ask a question that requires knowledge of up-to-date weather information. For example, the user might ask if it will rain today. The user may or may not specify the city for which they request information. This intent is for real-time weather information only.\n</intent>\n\n<intent>\n<enum>CHANGE_USER_NAME</enum>\nThe user wants to change their username.\n</intent>\n\n<intent>\n<enum>CHANGE_ASSISTANT_NAME</enum>\nThe user wants to change the assistant's name.\n</intent>\n\n<intent>\n<enum>START_TRANSLATOR</enum>\nThe user requests the assistant to start a translation service between two different languages.\n</intent>\n\n<intent>\n<enum>START_MEETING_ASSISTANT</enum>\nThe user wants to start an audio recorder service that transcribes audio to take notes of a meeting, lecture, or conversation. The recorder will also summarize or take notes.\n</intent>\n\n<intent>\n<enum>VOICE_MEMO</enum>\nRecords and stores notes or memos. The memo is stored on rabbit hole.\nUsed when the user wants to save a note, make a note, or save information to rabbit hole.\n</intent>\n\n<intent>\n<enum>GET_CURRENT_TIME</enum>\nThe user is requesting the current local time in some location.\n</intent>\n\n<intent>\n<enum>PLAY_MUSIC</enum>\nThe user requests the assistant to play some music. The user might request a song, an artist, or a genre.\n</intent>\n\n<intent>\n<enum>CALL_UBER_RIDE</enum>\nThe user wants to call a ride to a location, or asks if the assistant can call a ride.\n</intent>\n\n<intent>\n<enum>ORDER_FOOD</enum>\nThe user wants to order food for delivery, or asks if the assistant can order food. The user might specify the dish, the restaurant, or the cuisine type. The user might specifically instruct the assistant to use DoorDash to order the food.\n</intent>\n\n<intent>\n<enum>GET_DOORDASH_STATUS</enum>\nThe user has already ordered food, and they want to know the status of the delivery. The user might ask about where the food is or where the driver is. The user might also ask how long they have to wait for the delivery. The user might ask about where their DoorDash is. This intent assumes the user has already placed an order, the user is only asking for an update about the status of that delivery.\n</intent>\n\n<intent>\n<enum>GENERATE_IMAGE</enum>\nThe user wants the assistant to generate an image, using a generative AI service. The user might ask you to create a photo, painting, or any other kind of image. The might explicitly ask you to use the Midjourney AI service.\n</intent>\n\n<intent>\n<enum>CONVERSATION_VISUAL</enum>\nThe user is asking a question related to an image that the user provided to the assistant. Only used when the query is referncing objects in the image, or if the answer to the user's query can be assisted by information in the image. FOLLOW CLOSELY to the examples when using this intent.\n</intent>\n\n<intent>\n<enum>EDIT_SPREADSHEET</enum>\nWhen the user passed an image of a spreadsheet, and wants to edit it.\n</intent>\n\n<intent>\n<enum>SEND_FEEDBACK</enum>\nThe user wants to provide feedback to the assistant.\n</intent>\n\n<intent>\n<enum>GET_UBER_STATUS_UPDATE</enum>\nThe user is requesting the status of their rideshare ride. The user might specifically ask about the status of their uber.\n</intent>\n\n<intent>\n<enum>GET_DOORDASH_STATUS</enum>\nThe user is requesting the status of their food delivery\n</intent>\n\n"
+        self.filename = "HUMAN_ANNOTATED_INTENT_CLASSIFICATION_MAY_16.csv"
+        self.labels_gt = True
+        bucket_name = 'q-applied-ai-data'
+        self.contents = []
+        self.labels = []
+        self.image_present = False
+        contents_=[]
+        with open(self.filename, newline='') as f:
+            contents_ = csv.reader(f)
+            for i,c in enumerate(contents_):
+                s = ""
+                if c:
+                    if (len(c)> 1):
+                        for s1 in c:
+                            s = s + s1
+                    else:
+                        s = c[0]
+                    g = s.split(" | ")
+                    self.contents.append([{"role": "user",
+                                          "content": [{"type": "text", "text": g[0].replace("\\n", "\n")}]}])
+                    self.labels.append(g[1].split(":")[1][2:][:-1])
+
+    def __getitem__(self, index):
+        full_prompt =self.contents[index]
+        labels = self.labels[index]
+        return full_prompt, [], labels
+    
+    def __len__(self):
+        return len(self.contents)
+
