@@ -73,7 +73,7 @@ def main():
         if vendors[args.vendor] == 'hf':
             response = model_obj.invoke_model(prompt=text, system_prompt = dataset_obj.system_prompt[0], base64_image_data=b64)
         else:
-            response = model_obj.invoke_model(prompt=text, system_prompt = dataset_obj.system_prompt[0], base64_image_data=b64)
+            response = model_obj().invoke_model(prompt=text, system_prompt = dataset_obj.system_prompt[0], base64_image_data=b64)
 
         resp.append(response)
         if image and response:

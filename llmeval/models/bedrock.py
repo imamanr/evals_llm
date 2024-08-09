@@ -11,7 +11,8 @@ from .base import BaseAPI
 
 class Claude3Wrapper_text(BaseAPI):
     """Encapsulates Claude 3 model invocations using the Amazon Bedrock Runtime client."""
-
+    _photon_model = "anthropic.claude-3-opus-20240229-v1:0"
+    
     def __init__(self, client=None):
         """
         :param client: A low-level client representing Amazon Bedrock Runtime.
