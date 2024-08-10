@@ -4,7 +4,7 @@ Model evaluation tools, with a focus on Large Language Models and Large Vision M
 
 ## Clone this repo
 
-`$ git clone git@gitlab.com:q-os/applied-ai-team/lvmevals.git`
+`$ git clone git@github.com:imamanr/evals_llm.git`
 
 ## Setup your python venv
 
@@ -17,10 +17,7 @@ Model evaluation tools, with a focus on Large Language Models and Large Vision M
 
 *TODO -- use `aws configure sso` instead*
 
-1. https://rabbit-inc.awsapps.com/start/#/?tab=accounts
-2. Choose `Development`
-3. Copy the first option (for setting environment variables with `export`)
-4. Paste into your terminal
+1. Use AWS credentials
 
 ## Run Hello World
 
